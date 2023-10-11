@@ -1,4 +1,4 @@
-# Getting Started
+# ACME Learning Center Platform
 
 ### Reference Documentation
 
