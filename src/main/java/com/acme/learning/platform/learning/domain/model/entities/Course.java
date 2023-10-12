@@ -1,7 +1,9 @@
 package com.acme.learning.platform.learning.domain.model.entities;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
 @Entity
 public class Course {
@@ -9,5 +11,8 @@ public class Course {
     private Long id;
     private String title;
     private String description;
-    //ALL: LearningPath
+
+    @Embedded
+    @Getter
+    private LearningPath learningPath;
 }
