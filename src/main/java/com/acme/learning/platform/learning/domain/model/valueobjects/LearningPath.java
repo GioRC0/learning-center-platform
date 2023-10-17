@@ -1,5 +1,7 @@
-package com.acme.learning.platform.learning.domain.model.entities;
+package com.acme.learning.platform.learning.domain.model.valueobjects;
 
+import com.acme.learning.platform.learning.domain.model.entities.LearningPathItem;
+import com.acme.learning.platform.learning.domain.model.entities.Tutorial;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.OneToMany;
 
@@ -31,11 +33,19 @@ public class LearningPath {
         return learningPathItems.get(0).getTutorial().getId();
     }
 
+    public Tutorial getFirstTutorialLearningPath(){
+        return learningPathItems.get(0).getTutorial();
+    }
     public Tutorial getNextTutorialLearningPath(Long currentTutorialId){
         Long itemId = learningPathItems.stream().
                 filter(learningPathItem -> learningPathItem.getTutorial().getId().equals(currentTutorialId))
                 .findFirst().map(LearningPathItem::getNextItemId).orElse(null);
         return null;
+    }
+
+    private LearningPathItem getLearningPathItemWithId(Long itemId){
+        return learningPathItems.stream().filter(learningPathItem -> learningPathItem.getTutorial().getId().equals(itemId))
+                .findFirst().orElse(null);
     }
 
     private LearningPathItem getLearningPathWithTutorialId(Long tutorialId){
@@ -45,5 +55,9 @@ public class LearningPath {
 
     public boolean isLastTutorialInLearningPath(Long currentTutorialId){
         return getLearningPathWithTutorialId(currentTutorialId).getNextItemId() == null;
+    }
+
+    public LearningPathItem getLastItemInLearningPath(){
+        return learningPathItems.stream().reduce((first,second)->second).orElse(null);
     }
 }
